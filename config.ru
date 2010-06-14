@@ -1,3 +1,5 @@
+# -*- mode:ruby -*-
+#
 # This is the Rackup initialization script for running RubyCAS-Server under Passenger/Rack.
 #
 # This file doesn't really have anything to do with your server's "configuration",
