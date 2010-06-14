@@ -84,7 +84,7 @@ module CASServer::CAS
     https.start do |conn|
       path = uri.path.empty? ? '/' : uri.path
       path += '?' + uri.query unless (uri.query.nil? || uri.query.empty?)
-      
+
       pgt = ProxyGrantingTicket.new
       pgt.ticket = "PGT-" + CASServer::Utils.random_string(60)
       pgt.iou = "PGTIOU-" + CASServer::Utils.random_string(57)
@@ -99,7 +99,7 @@ module CASServer::CAS
       response = conn.request_get(path)
       # TODO: follow redirects... 2.5.4 says that redirects MAY be followed
       # NOTE: The following response codes are valid according to the JA-SIG implementation even without following redirects
-      
+
       if %w(200 202 301 302 304).include?(response.code)
         # 3.4 (proxy-granting ticket IOU)
         pgt.save!
@@ -292,6 +292,18 @@ module CASServer::CAS
 
     service_with_ticket = service + query_separator + "ticket=" + st.ticket
     service_with_ticket
+  end
+
+  def service_uri_error_message(service, message)
+    raise ArgumentError, "Second argument must be a String!" unless message.kind_of?(String)
+
+    # This will choke with a URI::InvalidURIError if service URI is not properly URI-escaped...
+    # This exception is handled further upstream (i.e. in the controller).
+    service_uri = URI.parse(service)
+    service_uri.query ||= ''
+    service_uri.query += "&cas_error_message=#{URI.escape(message)}"
+
+    clean_service_url(service_uri.to_s)
   end
 
   # Strips CAS-related parameters from a service URL and normalizes it,
