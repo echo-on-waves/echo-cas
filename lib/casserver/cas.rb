@@ -294,7 +294,7 @@ module CASServer::CAS
     service_with_ticket
   end
 
-  def service_uri_error_message(service, message)
+  def service_uri_with_message(service, message)
     raise ArgumentError, "Second argument must be a String!" unless message.kind_of?(String)
 
     # This will choke with a URI::InvalidURIError if service URI is not properly URI-escaped...

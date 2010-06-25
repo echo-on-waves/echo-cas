@@ -202,7 +202,7 @@ module CASServer::Controllers
       else
         $LOG.warn("Invalid credentials given for user '#{@username}'")
         @message = {:type => 'mistake', :message => _("Incorrect username or password.")}
-        @status = 401
+        # @status = 401
 
         # ECHO specific:
         #   redirecting back, with the error message
