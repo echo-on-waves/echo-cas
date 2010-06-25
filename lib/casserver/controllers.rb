@@ -206,7 +206,7 @@ module CASServer::Controllers
 
         # ECHO specific:
         #   redirecting back, with the error message
-        return redirect(service_uri_with_message(@service, @message))
+        return redirect(service_uri_with_message(@service, @message.to_json))
       end
 
       render :login

@@ -295,7 +295,7 @@ module CASServer::CAS
   end
 
   def service_uri_with_message(service, message)
-    raise ArgumentError, "Second argument must be a String!" unless message.kind_of?(String)
+    raise ArgumentError, "Second argument must be a String! (got: #{message.inspect})" unless message.kind_of?(String)
 
     # This will choke with a URI::InvalidURIError if service URI is not properly URI-escaped...
     # This exception is handled further upstream (i.e. in the controller).
